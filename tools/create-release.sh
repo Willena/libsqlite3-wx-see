@@ -36,8 +36,10 @@ echo "The tag name is '$TAG_NAME'"
 echo "The Sqlite Version is '$SQLITE_VERSION'"
 
 NEW_TAG=$(echo "wx-$TAG_NAME/sqlite3-$SQLITE_VERSION" | sed -re 's|[^a-zA-Z0-9.\/-]||g')
+SQLITE_VERSION=$(echo $SQLITE_VERSION | | sed -re 's|[^a-zA-Z0-9.\/-]||g')
 
 echo "The new tag is '$NEW_TAG'"
 
 git tag -f "$NEW_TAG"
+git tag -f "$SQLITE_VERSION"
 git push --force --tags --quiet "https://${GH_TOKEN}@github.com/Willena/libsqlite3-wx-see"
