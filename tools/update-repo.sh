@@ -48,6 +48,8 @@ unzip "${TAG_NAME}.zip"
 cd $_BASE_DIR/tmp/utelle-wxsqlite3-*
 cp -R ./sqlite3/secure/* $_BASE_DIR/
 
+sed -i "s|typedef sqlite3_uint64 u64;.*|//typedef sqlite3_uint64 u64;|g" $_BASE_DIR/src/shathree.c
+
 cd $_BASE_DIR
 rm -rf $_BASE_DIR/tmp/
 
