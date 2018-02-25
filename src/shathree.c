@@ -31,7 +31,7 @@ SQLITE_EXTENSION_INIT1
 #include <assert.h>
 #include <string.h>
 #include <stdarg.h>
-typedef sqlite3_uint64 u64;
+typedef sqlite3_uint64 sqlite3_uint64;
 
 /******************************************************************************
 ** The Hash Engine
@@ -65,7 +65,7 @@ typedef sqlite3_uint64 u64;
 typedef struct SHA3Context SHA3Context;
 struct SHA3Context {
   union {
-    u64 s[25];                /* Keccak state. 5x5 lines of 64 bits each */
+    sqlite3_uint64 s[25];                /* Keccak state. 5x5 lines of 64 bits each */
     unsigned char x[1600];    /* ... or 1600 bytes */
   } u;
   unsigned nRate;        /* Bytes of input accepted per Keccak iteration */
@@ -78,22 +78,22 @@ struct SHA3Context {
 */
 static void KeccakF1600Step(SHA3Context *p){
   int i;
-  u64 B0;
-  u64 B1;
-  u64 B2;
-  u64 B3;
-  u64 B4;
-  u64 C0;
-  u64 C1;
-  u64 C2;
-  u64 C3;
-  u64 C4;
-  u64 D0;
-  u64 D1;
-  u64 D2;
-  u64 D3;
-  u64 D4;
-  static const u64 RC[] = {
+  sqlite3_uint64 B0;
+  sqlite3_uint64 B1;
+  sqlite3_uint64 B2;
+  sqlite3_uint64 B3;
+  sqlite3_uint64 B4;
+  sqlite3_uint64 C0;
+  sqlite3_uint64 C1;
+  sqlite3_uint64 C2;
+  sqlite3_uint64 C3;
+  sqlite3_uint64 C4;
+  sqlite3_uint64 D0;
+  sqlite3_uint64 D1;
+  sqlite3_uint64 D2;
+  sqlite3_uint64 D3;
+  sqlite3_uint64 D4;
+  static const sqlite3_uint64 RC[] = {
     0x0000000000000001ULL,  0x0000000000008082ULL,
     0x800000000000808aULL,  0x8000000080008000ULL,
     0x000000000000808bULL,  0x0000000080000001ULL,
@@ -448,7 +448,7 @@ static void SHA3Update(
 #if SHA3_BYTEORDER==1234
   if( (p->nLoaded % 8)==0 && ((aData - (const unsigned char*)0)&7)==0 ){
     for(; i+7<nData; i+=8){
-      p->u.s[p->nLoaded/8] ^= *(u64*)&aData[i];
+      p->u.s[p->nLoaded/8] ^= *(sqlite3_uint64*)&aData[i];
       p->nLoaded += 8;
       if( p->nLoaded>=p->nRate ){
         KeccakF1600Step(p);
