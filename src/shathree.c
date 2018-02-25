@@ -62,39 +62,26 @@ SQLITE_EXTENSION_INIT1
 /*
 ** State structure for a SHA3 hash in progress
 */
+typedef struct SHA3Context SHA3Context;
 struct SHA3Context {
   union {
-    sqlite3_uint64 s[25];                /* Keccak state. 5x5 lines of 64 bits each */
+    u64 s[25];                /* Keccak state. 5x5 lines of 64 bits each */
     unsigned char x[1600];    /* ... or 1600 bytes */
   } u;
   unsigned nRate;        /* Bytes of input accepted per Keccak iteration */
   unsigned nLoaded;      /* Input bytes loaded into u.x[] so far this cycle */
   unsigned ixMask;       /* Insert next input into u.x[nLoaded^ixMask]. */
 };
-typedef struct SHA3Context SHA3Context;
-
 
 /*
 ** A single step of the Keccak mixing function for a 1600-bit state
 */
 static void KeccakF1600Step(SHA3Context *p){
   int i;
-  sqlite3_uint64 BA;
-  sqlite3_uint64 B1;
-  sqlite3_uint64 B2;
-  sqlite3_uint64 B3;
-  sqlite3_uint64 B4;
-  sqlite3_uint64 C0;
-  sqlite3_uint64 C1;
-  sqlite3_uint64 C2;
-  sqlite3_uint64 C3;
-  sqlite3_uint64 C4;
-  sqlite3_uint64 D0;
-  sqlite3_uint64 D1;
-  sqlite3_uint64 D2;
-  sqlite3_uint64 D3;
-  sqlite3_uint64 D4;
-  static const sqlite3_uint64 RC[] = {
+  u64 BA, B1, B2, B3, B4;
+  u64 C0, C1, C2, C3, C4;
+  u64 D0, D1, D2, D3, D4;
+  static const u64 RC[] = {
     0x0000000000000001ULL,  0x0000000000008082ULL,
     0x800000000000808aULL,  0x8000000080008000ULL,
     0x000000000000808bULL,  0x0000000080000001ULL,
@@ -449,7 +436,7 @@ static void SHA3Update(
 #if SHA3_BYTEORDER==1234
   if( (p->nLoaded % 8)==0 && ((aData - (const unsigned char*)0)&7)==0 ){
     for(; i+7<nData; i+=8){
-      p->u.s[p->nLoaded/8] ^= *(sqlite3_uint64*)&aData[i];
+      p->u.s[p->nLoaded/8] ^= *(u64*)&aData[i];
       p->nLoaded += 8;
       if( p->nLoaded>=p->nRate ){
         KeccakF1600Step(p);
