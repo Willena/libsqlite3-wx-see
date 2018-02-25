@@ -48,7 +48,10 @@ unzip "${TAG_NAME}.zip"
 cd $_BASE_DIR/tmp/utelle-wxsqlite3-*
 cp -R ./sqlite3/secure/* $_BASE_DIR/
 
+echo "------------------------"
+echo "Patching shatree.c to solve misterious build errors"
 sed -i "s|typedef sqlite3_uint64 u64;.*|//typedef sqlite3_uint64 u64;|g" $_BASE_DIR/src/shathree.c
+sed -i "s|B0|BA|g" $_BASE_DIR/src/shathree.c
 
 cd $_BASE_DIR
 rm -rf $_BASE_DIR/tmp/
