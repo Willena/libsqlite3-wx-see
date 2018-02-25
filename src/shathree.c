@@ -31,7 +31,7 @@ SQLITE_EXTENSION_INIT1
 #include <assert.h>
 #include <string.h>
 #include <stdarg.h>
-//typedef sqlite3_uint64 u64;
+typedef sqlite3_uint64 u64;
 
 /******************************************************************************
 ** The Hash Engine
@@ -78,9 +78,21 @@ struct SHA3Context {
 */
 static void KeccakF1600Step(SHA3Context *p){
   int i;
-  u64 B0, B1, B2, B3, B4;
-  u64 C0, C1, C2, C3, C4;
-  u64 D0, D1, D2, D3, D4;
+  u64 B0;
+  u64 B1;
+  u64 B2;
+  u64 B3;
+  u64 B4;
+  u64 C0;
+  u64 C1;
+  u64 C2;
+  u64 C3;
+  u64 C4;
+  u64 D0;
+  u64 D1;
+  u64 D2;
+  u64 D3;
+  u64 D4;
   static const u64 RC[] = {
     0x0000000000000001ULL,  0x0000000000008082ULL,
     0x800000000000808aULL,  0x8000000080008000ULL,
@@ -490,7 +502,7 @@ static unsigned char *SHA3Final(SHA3Context *p){
 ** Implementation of the sha3(X,SIZE) function.
 **
 ** Return a BLOB which is the SIZE-bit SHA3 hash of X.  The default
-** size is 256.  If X is a BLOB, it is hashed as is.  
+** size is 256.  If X is a BLOB, it is hashed as is.
 ** For all other non-NULL types of input, X is converted into a UTF-8 string
 ** and the string is hashed without the trailing 0x00 terminator.  The hash
 ** of a NULL value is NULL.
