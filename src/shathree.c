@@ -31,7 +31,7 @@ SQLITE_EXTENSION_INIT1
 #include <assert.h>
 #include <string.h>
 #include <stdarg.h>
-typedef sqlite3_uint64 sqlite3_uint64;
+//typedef sqlite3_uint64 u64;
 
 /******************************************************************************
 ** The Hash Engine
@@ -62,7 +62,6 @@ typedef sqlite3_uint64 sqlite3_uint64;
 /*
 ** State structure for a SHA3 hash in progress
 */
-typedef struct SHA3Context SHA3Context;
 struct SHA3Context {
   union {
     sqlite3_uint64 s[25];                /* Keccak state. 5x5 lines of 64 bits each */
@@ -72,6 +71,8 @@ struct SHA3Context {
   unsigned nLoaded;      /* Input bytes loaded into u.x[] so far this cycle */
   unsigned ixMask;       /* Insert next input into u.x[nLoaded^ixMask]. */
 };
+typedef struct SHA3Context SHA3Context;
+
 
 /*
 ** A single step of the Keccak mixing function for a 1600-bit state
