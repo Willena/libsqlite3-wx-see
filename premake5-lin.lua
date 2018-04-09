@@ -14,7 +14,7 @@ newoption {
 BUILDDIR = _OPTIONS["builddir"] or "build"
 
 workspace "SQLite3"
-  configurations { "Debug AES128", "Release AES128", "Debug AES256", "Release AES256" }
+  configurations { "Debug", "Release" }
   platforms { "Linux32", "Linux64" }
   location(BUILDDIR)
 
@@ -48,6 +48,8 @@ project "sqlite3lib"
   language "C++"
   kind "StaticLib"
 
+  makesettings { "include config.gcc" }
+	
   files { "src/sqlite3secure.c", "src/*.h" }
   vpaths {
     ["Header Files"] = { "**.h" },
@@ -59,6 +61,7 @@ project "sqlite3lib"
   location( BUILDDIR )
   targetname "sqlite3"
 
+
   defines {
     "THREADSAFE=1",
     "SQLITE_MAX_ATTACHED=10",
@@ -66,6 +69,7 @@ project "sqlite3lib"
     "SQLITE_SOUNDEX",
     "SQLITE_ENABLE_COLUMN_METADATA",
     "SQLITE_HAS_CODEC=1",
+    "CODEC_TYPE=CODEC_TYPE_CHACHA20",
     "SQLITE_SECURE_DELETE",
     "SQLITE_ENABLE_FTS3",
     "SQLITE_ENABLE_FTS3_PARENTHESIS",
@@ -80,34 +84,23 @@ project "sqlite3lib"
     "SQLITE_ENABLE_CARRAY",
 --    "SQLITE_ENABLE_FILEIO",
     "SQLITE_ENABLE_SERIES",
+    "SQLITE_TEMP_STORE=2",
     "SQLITE_USE_URI",
     "SQLITE_USER_AUTHENTICATION"
   }
 
-  -- Encryption type
-  filter { "configurations:*AES128" }
-    defines {
-      "CODEC_TYPE=CODEC_TYPE_AES128"
-    }
-  filter { "configurations:*AES256" }
-    defines {
-      "CODEC_TYPE=CODEC_TYPE_AES256"
-    }
 
   -- Target directory
-  filter { "configurations:Debug AES128" }
-    targetdir "aes128/lib/debug"
-  filter { "configurations:Debug AES256" }
-    targetdir "aes256/lib/debug"
-  filter { "configurations:Release AES128" }
-    targetdir "aes128/lib/release"
-  filter { "configurations:Release AES256" }
-    targetdir "aes256/lib/release"
+  filter { "configurations:Debug" }
+    targetdir "lib/debug"
+  filter { "configurations:Release" }
+    targetdir "lib/release"
 
 -- SQLite3 shared library
 project "sqlite3so"
   language "C++"
   kind "SharedLib"
+  makesettings { "include config.gcc" }
 
   files { "src/sqlite3secure.c", "src/*.h", "src/sqlite3.def"}
   filter {}
@@ -127,6 +120,7 @@ project "sqlite3so"
     "SQLITE_SOUNDEX",
     "SQLITE_ENABLE_COLUMN_METADATA",
     "SQLITE_HAS_CODEC=1",
+    "CODEC_TYPE=CODEC_TYPE_CHACHA20",
     "SQLITE_SECURE_DELETE",
     "SQLITE_ENABLE_FTS3",
     "SQLITE_ENABLE_FTS3_PARENTHESIS",
@@ -141,34 +135,26 @@ project "sqlite3so"
     "SQLITE_ENABLE_CARRAY",
     "SQLITE_ENABLE_FILEIO",
     "SQLITE_ENABLE_SERIES",
+    "SQLITE_TEMP_STORE=2",
     "SQLITE_USE_URI",
     "SQLITE_USER_AUTHENTICATION"
   }
 
-  -- Encryption type
-  filter { "configurations:*AES128" }
-    defines {
-      "CODEC_TYPE=CODEC_TYPE_AES128"
-    }
-  filter { "configurations:*AES256" }
-    defines {
-      "CODEC_TYPE=CODEC_TYPE_AES256"
-    }
 
   -- Target directory
-  filter { "configurations:Debug AES128" }
-    targetdir "aes128/so/debug"
-  filter { "configurations:Debug AES256" }
-    targetdir "aes256/so/debug"
-  filter { "configurations:Release AES128" }
-    targetdir "aes128/so/release"
-  filter { "configurations:Release AES256" }
-    targetdir "aes256/so/release"
+  filter { "configurations:Debug" }
+    targetdir "so/debug"
+  filter { "configurations:Release" }
+    targetdir "so/release"
 
 -- SQLite3 Shell
 project "sqlite3shell"
   kind "ConsoleApp"
   language "C++"
+  
+  makesettings { "include config.gcc" }
+
+  
   vpaths {
     ["Header Files"] = { "**.h" },
     ["Source Files"] = { "**.c" }
@@ -188,11 +174,7 @@ project "sqlite3shell"
   }
 
   -- Target directory
-  filter { "configurations:Debug AES128" }
-    targetdir "aes128/shell/debug"
-  filter { "configurations:Debug AES256" }
-    targetdir "aes256/shell/debug"
-  filter { "configurations:Release AES128" }
-    targetdir "aes128/shell/release"
-  filter { "configurations:Release AES256" }
-    targetdir "aes256/shell/release"
+  filter { "configurations:Debug" }
+    targetdir "shell/debug"
+  filter { "configurations:Release" }
+    targetdir "shell/release"
