@@ -29,6 +29,7 @@ source $_SCRIPT_DIR/git-config.sh
 
 if [[ -z "$TYPE" ]]; then
   echo "No build type provided.. Exiting..."
+  exit 1;
 fi
 
 echo "Build for $TYPE"
@@ -39,5 +40,4 @@ tar -xvzf "$_BASE_DIR/premake.tar.gz"
 echo "Generate makefiles"
 
 $_BASE_DIR/premake5 --file=premake5-lin.lua gmake
-cd $_BASE_DIR/build/ && cat Makefile
-cd $_BASE_DIR/build/ && make verbose=1
+cd $_BASE_DIR/build/ && make all verbose=1

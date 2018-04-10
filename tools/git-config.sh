@@ -9,5 +9,5 @@ cd $_BASE_DIR
 git config --local user.name "Villena Guillaume"
 git config --local user.email "guiguivil@gmail.com"
 
-echo "Build on the master branch !"
+echo "Build on the $BRANCH branch !"
 #git checkout -qf master
