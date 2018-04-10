@@ -10,4 +10,4 @@ git config --local user.name "Villena Guillaume"
 git config --local user.email "guiguivil@gmail.com"
 
 echo "Build on the master branch !"
-git checkout -qf master
+#git checkout -qf master
