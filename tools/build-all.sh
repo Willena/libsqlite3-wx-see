@@ -40,4 +40,4 @@ tar -xvzf "$_BASE_DIR/premake.tar.gz"
 echo "Generate makefiles"
 
 $_BASE_DIR/premake5 --file=premake5-lin.lua gmake
-cd $_BASE_DIR/build/ && make all verbose=1
+cd $_BASE_DIR/build/ && make config=$TYPE verbose=1
