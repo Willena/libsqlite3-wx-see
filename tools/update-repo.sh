@@ -38,6 +38,9 @@ rm -rf $_BASE_DIR/tmp/
 rm -f $_BASE_DIR/Readme.txt
 rm -f $_BASE_DIR/premake5.lua
 
+#Clean up some things ;) 
+find $_BASE_DIR/build/* ! -name 'config.gcc' -exec rm -rf {} +
+
 #Download latest LATEST_RELEASED_SOURCES
 mkdir $_BASE_DIR/tmp/
 cd $_BASE_DIR/tmp/
@@ -46,7 +49,7 @@ unzip "${TAG_NAME}.zip"
 
 #Moving things.
 cd $_BASE_DIR/tmp/utelle-wxsqlite3-*
-cp -R ./sqlite3/secure/* $_BASE_DIR/
+cp -R ./sqlite3secure/* $_BASE_DIR/
 
 echo "------------------------"
 echo "Patching shatree.c to solve misterious build errors"
