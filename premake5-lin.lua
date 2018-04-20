@@ -49,7 +49,7 @@ project "sqlite3lib"
   kind "StaticLib"
 
   makesettings { "include config.gcc" }
-	
+
   files { "src/sqlite3secure.c", "src/*.h" }
   vpaths {
     ["Header Files"] = { "**.h" },
@@ -69,7 +69,6 @@ project "sqlite3lib"
     "SQLITE_SOUNDEX",
     "SQLITE_ENABLE_COLUMN_METADATA",
     "SQLITE_HAS_CODEC=1",
-    "CODEC_TYPE=CODEC_TYPE_CHACHA20",
     "SQLITE_SECURE_DELETE",
     "SQLITE_ENABLE_FTS3",
     "SQLITE_ENABLE_FTS3_PARENTHESIS",
@@ -80,11 +79,10 @@ project "sqlite3lib"
     "SQLITE_CORE",
     "SQLITE_ENABLE_EXTFUNC",
     "SQLITE_ENABLE_CSV",
---    "SQLITE_ENABLE_SHA3",
+  --    "SQLITE_ENABLE_SHA3",
     "SQLITE_ENABLE_CARRAY",
---    "SQLITE_ENABLE_FILEIO",
+  --    "SQLITE_ENABLE_FILEIO",
     "SQLITE_ENABLE_SERIES",
-    "SQLITE_TEMP_STORE=2",
     "SQLITE_USE_URI",
     "SQLITE_USER_AUTHENTICATION"
   }
@@ -114,13 +112,13 @@ project "sqlite3so"
   location( BUILDDIR )
   targetname "sqlite3"
 
+
   defines {
     "THREADSAFE=1",
     "SQLITE_MAX_ATTACHED=10",
     "SQLITE_SOUNDEX",
     "SQLITE_ENABLE_COLUMN_METADATA",
     "SQLITE_HAS_CODEC=1",
-    "CODEC_TYPE=CODEC_TYPE_CHACHA20",
     "SQLITE_SECURE_DELETE",
     "SQLITE_ENABLE_FTS3",
     "SQLITE_ENABLE_FTS3_PARENTHESIS",
@@ -135,7 +133,6 @@ project "sqlite3so"
     "SQLITE_ENABLE_CARRAY",
     "SQLITE_ENABLE_FILEIO",
     "SQLITE_ENABLE_SERIES",
-    "SQLITE_TEMP_STORE=2",
     "SQLITE_USE_URI",
     "SQLITE_USER_AUTHENTICATION"
   }
@@ -151,10 +148,10 @@ project "sqlite3so"
 project "sqlite3shell"
   kind "ConsoleApp"
   language "C++"
-  
+
   makesettings { "include config.gcc" }
 
-  
+
   vpaths {
     ["Header Files"] = { "**.h" },
     ["Source Files"] = { "**.c" }

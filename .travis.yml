@@ -14,12 +14,16 @@ install:
 jobs:
   include:
     - stage: Update
+      if: branch = master
       script: docker exec -e GH_TOKEN=$GH_TOKEN build bash ./libsqlite3-wx-see/tools/update-repo.sh
     - stage: Build
+      if: tag IS present
       script: docker exec -e GH_TOKEN=$GH_TOKEN -e TYPE=release_linux32 build bash ./libsqlite3-wx-see/tools/build-all.sh
     -
+      if: tag IS present
       script: docker exec -e GH_TOKEN=$GH_TOKEN -e TYPE=release_linux64 build bash ./libsqlite3-wx-see/tools/build-all.sh
     - stage: Deploy
+      if: tag IS present
       script: bash ./tools/create-release.sh
 env:
   global:
