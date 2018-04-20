@@ -50,6 +50,7 @@ unzip "${TAG_NAME}.zip"
 #Moving things.
 cd $_BASE_DIR/tmp/utelle-wxsqlite3-*
 cp -R ./sqlite3secure/* $_BASE_DIR/
+find $_BASE_DIR/build/* ! -name 'config.gcc' -exec rm -rf {} +
 
 echo "------------------------"
 echo "Patching shatree.c to solve misterious build errors"
@@ -62,7 +63,9 @@ rm -rf $_BASE_DIR/tmp/
 #Getting sqlite version from header files.
 SQLITE_VERSION=$(grep "#define SQLITE_VERSION " src/sqlite3.h | xargs | cut -d ' ' -f 3)
 
+echo "wxsqlite3-$TAG_NAME : Updated to SQLite3-$SQLITE_VERSION"
+
 #Using encrypted key
-git add .
-git commit -m "from wxsqlite3-$TAG_NAME : Updated to SQLite3-$SQLITE_VERSION"
-git push --force --quiet "https://${GH_TOKEN}@github.com/Willena/libsqlite3-wx-see"
+#git add .
+#git commit -m "from wxsqlite3-$TAG_NAME : Updated to SQLite3-$SQLITE_VERSION"
+#git push --force --quiet "https://${GH_TOKEN}@github.com/Willena/libsqlite3-wx-see"
