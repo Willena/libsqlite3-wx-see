@@ -15,16 +15,20 @@ jobs:
   include:
     - stage: Update
       if: branch = master
-      script: docker exec -e GH_TOKEN=$GH_TOKEN build bash ./libsqlite3-wx-see/tools/update-repo.sh
+      script:
+        - docker exec -e GH_TOKEN=$GH_TOKEN build bash ./libsqlite3-wx-see/tools/update-repo.sh
     - stage: Build
       if: tag IS present
-      script: docker exec -e GH_TOKEN=$GH_TOKEN -e TYPE=release_linux32 build bash ./libsqlite3-wx-see/tools/build-all.sh
+      script:
+        - docker exec -e GH_TOKEN=$GH_TOKEN -e TYPE=release_linux32 build bash ./libsqlite3-wx-see/tools/build-all.sh
     -
       if: tag IS present
-      script: docker exec -e GH_TOKEN=$GH_TOKEN -e TYPE=release_linux64 build bash ./libsqlite3-wx-see/tools/build-all.sh
+      script:
+        - docker exec -e GH_TOKEN=$GH_TOKEN -e TYPE=release_linux64 build bash ./libsqlite3-wx-see/tools/build-all.sh
     - stage: Deploy
       if: tag IS present
-      script: bash ./tools/create-release.sh
+      script:
+        - bash ./tools/create-release.sh
 env:
   global:
     secure: BlLGkcZV8l7n05oY8IVA0/GgQ0EA7ZQPw0j7r/+CxbAbhC+703JJ3lZGuyNsYo1mbhxD0A4B7XBebHv/6aKo6jOAcLJjl38tr1KMHn3fbdzM+99nL3bmT0MEZgmUlzCcxl5xhiAG7FKidogizEFLcVZJigLlKjKag1c9xKDXHxKab1ZKozktdIgx1Eez+RqBwLCfCpOK53LHbHSdW7+SB478If9tNz4EGgIl3JGBNe3Utchz5KB2ngUnGP9dn2InyB8NzxAZ2zn8JIlTiHyjn72ryBltedbn7LRoAy5CbNY2QlChvc2/bJZFEpNn+F6nrLF+50oslvAwBVc6ePVVNv5aZzjT9+bJouEk1MaOqHEzP+yoSbWiPf15JT0b7CfS+eXozF8bd8mmWIbgItnx3rLp8a5RhQURPGkPvgEhJMWbiKT4PSNSkLEQxqUNtIZ3S99j8nnv2Dm0JkSkiednFdHtMUkiKwSNzlta9ca/bAvLJQPiILJ1Ou823cAbj6SeDaU0dE7ikGVmusFpaYv6SllAzTjdv+2duOGqeGuRp1k0jlqXJPazQ8H+KGzKveFd81N1Ae354oNgxbSueLS8knVvMZo3qzGkZVuzdTbW96M+XLh/z/s2Pxf0zKk258hm0fEYVo5aI/6n7llctfLJ1g9kVtGMRZknG3BM+M1xdR4=
