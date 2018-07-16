@@ -69,7 +69,7 @@ echo "wxsqlite3-$TAG_NAME : Updated to SQLite3-$SQLITE_VERSION"
 git add .
 git commit -m "from wxsqlite3-$TAG_NAME : Updated to SQLite3-$SQLITE_VERSION"
 
-git tag wx-v$TAG_NAME/sqlite3-$SQLITE_VERSION
+git tag wx-$TAG_NAME/sqlite3-$SQLITE_VERSION
 git tag $SQLITE_VERSION
 
 git push --force --quiet "https://${GH_TOKEN}@github.com/Willena/libsqlite3-wx-see"
