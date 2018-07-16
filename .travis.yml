@@ -14,7 +14,7 @@ install:
 jobs:
   include:
     - stage: Update
-      if: branch = master
+      if: branch = master AND tag IS NOT present
       script:
         - docker exec -e GH_TOKEN=$GH_TOKEN build bash ./libsqlite3-wx-see/tools/update-repo.sh
     - stage: Build
