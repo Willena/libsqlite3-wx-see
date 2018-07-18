@@ -7,7 +7,6 @@
 
 _SCRIPT_DIR=$(dirname $(readlink -f $0))
 _BASE_DIR=$_SCRIPT_DIR/../
-_REPO_URL="https://github.com/Willena/libsqlite3-crypt-auth"
 
 source $_SCRIPT_DIR/git-config.sh
 
@@ -39,5 +38,5 @@ tar -xvzf "$_BASE_DIR/premake.tar.gz"
 
 echo "Generate makefiles"
 
-$_BASE_DIR/premake5 --file=premake5-lin.lua gmake
+$_BASE_DIR/premake5 --file=premake5-linux.lua gmake
 cd $_BASE_DIR/build/ && make config=$TYPE verbose=1

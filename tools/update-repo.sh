@@ -19,7 +19,7 @@ source $_SCRIPT_DIR/git-config.sh
 #  of the SQLite library with encryption extention maintained in the WX-SQLite
 #  repo (https://github.com/utelle/wxsqlite3/).
 #
-#  It not my work. In case of issue using the lib, checkout the issue page of
+#  wxSqlite is not my work. In case of issue using the lib, checkout the issue page of
 #  the WX-SQLite repository.
 #
 #  If these scripts are faulty, then open an issue here. I'll be happy to help
@@ -35,11 +35,10 @@ LATEST_RELEASED_SOURCES_URL=$(curl -s https://api.github.com/repos/utelle/wxsqli
 #Clear the repo from old files
 rm -rf $_BASE_DIR/src/
 rm -rf $_BASE_DIR/tmp/
+rm -rf $_BASE_DIR/build/
 rm -f $_BASE_DIR/Readme.txt
 rm -f $_BASE_DIR/premake5.lua
 
-#Clean up some things ;) 
-find $_BASE_DIR/build/* ! -name 'config.gcc' -exec rm -rf {} +
 
 #Download latest LATEST_RELEASED_SOURCES
 mkdir $_BASE_DIR/tmp/
@@ -49,8 +48,16 @@ unzip "${TAG_NAME}.zip"
 
 #Moving things.
 cd $_BASE_DIR/tmp/utelle-wxsqlite3-*
+cd sqlite3secure
+find ./build/* ! -name 'config.gcc' -exec rm -rf {} +
+find ./* -type f ! -name 'readme.md' ! -name 'premake5.lua' -exec rm -f {} +
+
+mv ./readme.md ./readme-2.md
+
+cd ..
 cp -R ./sqlite3secure/* $_BASE_DIR/
-find $_BASE_DIR/build/* ! -name 'config.gcc' -exec rm -rf {} +
+
+
 
 echo "------------------------"
 echo "Patching shatree.c to solve misterious build errors"
@@ -69,8 +76,8 @@ echo "wxsqlite3-$TAG_NAME : Updated to SQLite3-$SQLITE_VERSION"
 git add .
 git commit -m "from wxsqlite3-$TAG_NAME : Updated to SQLite3-$SQLITE_VERSION"
 
-git tag wx-$TAG_NAME/sqlite3-$SQLITE_VERSION
-git tag $SQLITE_VERSION
+git tag -f wx-$TAG_NAME/sqlite3-$SQLITE_VERSION
+git tag -f $SQLITE_VERSION
 
 git push --force --quiet "https://${GH_TOKEN}@github.com/Willena/libsqlite3-wx-see"
 git push --force --quiet --tags  "https://${GH_TOKEN}@github.com/Willena/libsqlite3-wx-see"
