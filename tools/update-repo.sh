@@ -49,13 +49,13 @@ unzip "${TAG_NAME}.zip"
 #Moving things.
 cd $_BASE_DIR/tmp/utelle-wxsqlite3-*
 cd sqlite3secure
-find ./build/* ! -name 'config.gcc' -exec rm -rf {} +
-find ./* -type f ! -name 'readme.md' ! -name 'premake5.lua' -exec rm -f {} +
+
+find . ! -path './src*' ! -name 'config.gcc' ! -name 'readme.md' ! -name 'premake5.lua' ! -path './test*'  -exec rm -f {} +
 
 mv ./readme.md ./readme-2.md
 
-cd ..
-cp -R ./sqlite3secure/* $_BASE_DIR/
+pwd 
+cp -R ./* $_BASE_DIR/
 
 
 
@@ -79,5 +79,5 @@ git commit -m "from wxsqlite3-$TAG_NAME : Updated to SQLite3-$SQLITE_VERSION"
 git tag -f wx-$TAG_NAME/sqlite3-$SQLITE_VERSION
 git tag -f $SQLITE_VERSION
 
-git push --force --quiet "https://${GH_TOKEN}@github.com/Willena/libsqlite3-wx-see"
-git push --force --quiet --tags  "https://${GH_TOKEN}@github.com/Willena/libsqlite3-wx-see"
+#git push --force --quiet "https://${GH_TOKEN}@github.com/Willena/libsqlite3-wx-see"
+#git push --force --quiet --tags  "https://${GH_TOKEN}@github.com/Willena/libsqlite3-wx-see"
