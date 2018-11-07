@@ -2,7 +2,7 @@
 
 
 _SCRIPT_DIR=$(dirname $(readlink -f $0))
-_BASE_DIR=$_SCRIPT_DIR/../
+_BASE_DIR="$_SCRIPT_DIR/../"
 _REPO_URL="https://github.com/Willena/libsqlite3-crypt-auth"
 
 cd $_BASE_DIR

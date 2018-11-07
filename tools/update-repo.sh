@@ -7,7 +7,7 @@
 
 
 _SCRIPT_DIR=$(dirname $(readlink -f $0))
-_BASE_DIR=$_SCRIPT_DIR/../
+_BASE_DIR="$_SCRIPT_DIR/../"
 _REPO_URL="https://github.com/Willena/libsqlite3-crypt-auth"
 
 source $_SCRIPT_DIR/git-config.sh
@@ -29,20 +29,20 @@ source $_SCRIPT_DIR/git-config.sh
 
 
 #Firt get the latest tag of WX-SQLite3
-TAG_NAME=$(curl -s https://api.github.com/repos/utelle/wxsqlite3/releases/latest | grep tag_name | cut -d '"' -f 4)
-LATEST_RELEASED_SOURCES_URL=$(curl -s https://api.github.com/repos/utelle/wxsqlite3/releases/latest | grep zipball_url | cut -d '"' -f 4)
+TAG_NAME=$(curl -s "https://api.github.com/repos/utelle/wxsqlite3/releases/latest" | grep tag_name | cut -d '"' -f 4)
+LATEST_RELEASED_SOURCES_URL=$(curl -s "https://api.github.com/repos/utelle/wxsqlite3/releases/latest" | grep zipball_url | cut -d '"' -f 4)
 
 #Clear the repo from old files
-rm -rf $_BASE_DIR/src/
-rm -rf $_BASE_DIR/tmp/
-rm -rf $_BASE_DIR/build/
-rm -f $_BASE_DIR/Readme.txt
-rm -f $_BASE_DIR/premake5.lua
+rm -rf "$_BASE_DIR/src/"
+rm -rf "$_BASE_DIR/tmp/"
+rm -rf "$_BASE_DIR/build/"
+rm -f "$_BASE_DIR/Readme.txt"
+rm -f "$_BASE_DIR/premake5.lua"
 
 
 #Download latest LATEST_RELEASED_SOURCES
-mkdir $_BASE_DIR/tmp/
-cd $_BASE_DIR/tmp/
+mkdir "$_BASE_DIR/tmp/"
+cd "$_BASE_DIR/tmp/"
 wget -O "${TAG_NAME}.zip" "$LATEST_RELEASED_SOURCES_URL"
 unzip "${TAG_NAME}.zip"
 
@@ -54,9 +54,8 @@ find . ! -path './src*' ! -name 'config.gcc' ! -name 'readme.md' ! -name 'premak
 
 mv ./readme.md ./readme-2.md
 
-pwd 
+pwd
 cp -R ./* $_BASE_DIR/
-
 
 
 echo "------------------------"
@@ -76,8 +75,8 @@ echo "wxsqlite3-$TAG_NAME : Updated to SQLite3-$SQLITE_VERSION"
 git add .
 git commit -m "from wxsqlite3-$TAG_NAME : Updated to SQLite3-$SQLITE_VERSION"
 
-git tag -f wx-$TAG_NAME/sqlite3-$SQLITE_VERSION
-git tag -f $SQLITE_VERSION
+git tag -f "wx-$TAG_NAME/sqlite3-$SQLITE_VERSION"
+git tag -f "$SQLITE_VERSION"
 
 #git push --force --quiet "https://${GH_TOKEN}@github.com/Willena/libsqlite3-wx-see"
 #git push --force --quiet --tags  "https://${GH_TOKEN}@github.com/Willena/libsqlite3-wx-see"
