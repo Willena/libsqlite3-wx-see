@@ -223,14 +223,26 @@ sqlite3CodecAttach(sqlite3* db, int nDb, const void* zKey, int nKey)
   }
   else
   {
+#if (SQLITE_VERSION_NUMBER >= 3015000)
+    const char* zDbName = db->aDb[nDb].zDbSName;
+#else
+    const char* zDbName = db->aDb[nDb].zName;
+#endif
+    const char* dbFileName = sqlite3_db_filename(db, zDbName);
+    if (dbFileName != NULL)
+    {
+      /* Check whether key salt is provided in URI */
+      const unsigned char* cipherSalt = (const unsigned char*)sqlite3_uri_parameter(dbFileName, "cipher_salt");
+      if ((cipherSalt != NULL) && (strlen(cipherSalt) >= 2 * KEYSALT_LENGTH) && IsHexKey(cipherSalt, 2 * KEYSALT_LENGTH))
+      {
+        codec->m_hasKeySalt = 1;
+        ConvertHex2Bin(cipherSalt, 2 * KEYSALT_LENGTH, codec->m_keySalt);
+      }
+    }
+
     /* Configure cipher from URI in case of attached database */
     if (nDb > 0)
     {
-#if (SQLITE_VERSION_NUMBER >= 3015000)
-      const char* zDbName = db->aDb[nDb].zDbSName;
-#else
-      const char* zDbName = db->aDb[nDb].zName;
-#endif
       rc = CodecConfigureFromUri(db, zDbName, 0);
     }
     if (rc == SQLITE_OK)
@@ -238,6 +250,7 @@ sqlite3CodecAttach(sqlite3* db, int nDb, const void* zKey, int nKey)
       /* Key specified, setup encryption key for database */
       CodecSetBtree(codec, db->aDb[nDb].pBt);
       rc = CodecSetup(codec, GetCipherType(db), (char*) zKey, nKey);
+      CodecClearKeySalt(codec);
     }
     if (rc == SQLITE_OK)
     {
@@ -321,6 +334,7 @@ sqlite3_key_v2(sqlite3 *db, const char *zDbName, const void *zKey, int nKey)
   int rc = SQLITE_ERROR;
   if ((db != NULL) && (zKey != NULL) && (nKey > 0))
   {
+    int dbIndex;
     /* Configure cipher from URI parameters if requested */
     if (sqlite3FindFunction(db, "wxsqlite3_config_table", 0, SQLITE_UTF8, 0) == NULL)
     {
@@ -333,7 +347,7 @@ sqlite3_key_v2(sqlite3 *db, const char *zDbName, const void *zKey, int nKey)
     }
 
     /* The key is only set for the main database, not the temp database  */
-    int dbIndex = dbFindIndex(db, zDbName);
+    dbIndex = dbFindIndex(db, zDbName);
     rc = sqlite3CodecAttach(db, dbIndex, zKey, nKey);
   }
   return rc;
