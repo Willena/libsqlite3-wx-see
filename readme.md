@@ -69,6 +69,7 @@ Checking if key was correct
 
 The only way to know if the entered key is the right one is to try some operation on the database. Try for example to select something in the "master" table:
 ```sqlite
-SELECT count(*) FROM sqlite_master;```
+SELECT count(*) FROM sqlite_master;
+```
 
  If it throw an error like "*Not a database, the file is encrypted or not a databse*" then it means that the key is wrong. If the key is good you should get the number of row in the table "sqlite_master"
