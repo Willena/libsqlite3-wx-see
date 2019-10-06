@@ -48,7 +48,13 @@ unzip "${TAG_NAME}.zip"
 
 #Moving things.
 cd $_BASE_DIR/tmp/utelle-wxsqlite3-*
-cd sqlite3secure
+cd sqlite3secure/src
+
+echo "Generating rekeyvacuum.c"
+../rekeyvacuum.sh sqlite3.c >rekeyvacuum.c
+
+cd $_BASE_DIR/tmp/utelle-wxsqlite3-*
+cd sqlite3secure/
 
 find . ! -path './src*' ! -name 'config.gcc' ! -name 'readme.md' ! -name 'premake5.lua' ! -path './test*'  -exec rm -f {} +
 
@@ -72,11 +78,11 @@ SQLITE_VERSION=$(grep "#define SQLITE_VERSION " src/sqlite3.h | xargs | cut -d '
 echo "wxsqlite3-$TAG_NAME : Updated to SQLite3-$SQLITE_VERSION"
 
 #Using encrypted key
-git add .
-git commit -m "from wxsqlite3-$TAG_NAME : Updated to SQLite3-$SQLITE_VERSION"
+echo git add .
+echo git commit -m "from wxsqlite3-$TAG_NAME : Updated to SQLite3-$SQLITE_VERSION"
 
-git tag -f "wx-$TAG_NAME/sqlite3-$SQLITE_VERSION"
-git tag -f "$SQLITE_VERSION"
+echo git tag -f "wx-$TAG_NAME/sqlite3-$SQLITE_VERSION"
+echo git tag -f "$SQLITE_VERSION"
 
-git push --force --quiet "https://${GH_TOKEN}@github.com/Willena/libsqlite3-wx-see"
-git push --force --quiet --tags  "https://${GH_TOKEN}@github.com/Willena/libsqlite3-wx-see"
+#git push --force --quiet "https://${GH_TOKEN}@github.com/Willena/libsqlite3-wx-see"
+#git push --force --quiet --tags  "https://${GH_TOKEN}@github.com/Willena/libsqlite3-wx-see"
