@@ -64,7 +64,8 @@ project "sqlite3lib"
   targetname "sqlite3"
 
   defines {
-    "THREADSAFE=1",
+    "SQLITE_THREADSAFE=1",
+    "SQLITE_DQS=0",
     "SQLITE_MAX_ATTACHED=10",
     "SQLITE_ENABLE_EXPLAIN_COMMENTS",
     "SQLITE_SOUNDEX",
@@ -127,7 +128,8 @@ project "sqlite3so"
   targetname "sqlite3"
 
   defines {
-    "THREADSAFE=1",
+    "SQLITE_THREADSAFE=1",
+    "SQLITE_DQS=0",
     "SQLITE_MAX_ATTACHED=10",
     "SQLITE_SOUNDEX",
     "SQLITE_ENABLE_COLUMN_METADATA",
