@@ -1,3 +1,5 @@
+# **WARNING SQLite 3.31.1 is the last version of this repository. It will not be updated anymore. The repo has now moved to https://github.com/utelle/SQLite3MultipleCiphers**
+
 libsqlite3-wx-see
 =================
 
